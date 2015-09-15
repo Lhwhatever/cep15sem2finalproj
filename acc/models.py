@@ -14,4 +14,4 @@ class UserProfile(models.Model):
 
     @classmethod
     def get_by_curr_user(cls, user):
-        cls.objects.all.get(pk=user)
+        return cls.objects.all.get(user=user) if user.is_authenticated() else None

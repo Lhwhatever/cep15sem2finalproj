@@ -17,9 +17,19 @@ Including another URLconf
 from django.conf.urls import include, url
 from django.contrib import admin
 import acc.urls
+from cep15sem2finalproj.common.views import TemplateView
+
+
+class HomeView(TemplateView):
+    pass
 
 
 urlpatterns = [
+
+    # subdomains
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^acc/', include(acc.urls.urlpatterns))
+    url(r'^acc/', include(acc.urls.urlpatterns)),
+
+    # page
+    url(r'^home/', HomeView.as_view()),
 ]
