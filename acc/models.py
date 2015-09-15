@@ -1,0 +1,17 @@
+from django.contrib.auth.models import User
+from django.db import models
+
+
+# Create your models here.
+class UserProfile(models.Model):
+    user = models.OneToOneField(User)
+
+    website = models.URLField(blank=True)
+    status = models.TextField(blank=True)
+
+    def __str__(self):
+        return self.user.username
+
+    @classmethod
+    def get_by_curr_user(cls, user):
+        cls.objects.all.get(pk=user)
