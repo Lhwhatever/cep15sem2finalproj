@@ -84,7 +84,7 @@ class DetailView(generic.DetailView):
     def get_context_data(self, **kwargs):
         self.update_context()
         self.context.update(kwargs)
-        return super(DetailView, self).get_context_data(user=models.UserProfile.objects.get(user=self.request.user),
+        return super(DetailView, self).get_context_data(user=models.UserProfile.get(self.request.user),
                                                         message=self.request.session.pop('message', None),
                                                         **self.context)
 
@@ -105,10 +105,37 @@ def redirect_with_msg(request, message, to, permanent=False, *args, **kwargs):
 def login_required_redirect(request, dispatch, message=None, redirect_to=None, enforce=True, users=(), blacklist=True,
                             *args, **kwargs):
     if ((not enforce) or request.user.is_authenticated()) and\
-            ((models.UserProfile.get_by_curr_user(request.user) in users) ^ blacklist):
+            ((models.UserProfile.get(request.user) in users) ^ blacklist):
         return dispatch(*args, **kwargs)
     else:
         return redirect_with_msg(request,
                                  message or 'This page is private.',
                                  redirect_to or settings.LOGIN_URL,
                                  *args, **kwargs)
+
+
+class FormView(generic.FormView):
+    context = {}
+
+    login_required = False
+    users = ()
+    blacklist = True
+    redirect = None
+
+    def update_context(self):
+        pass
+
+    def get_context_data(self, **kwargs):
+        self.update_context()
+        self.context.update()
+        return super(FormView, self).get_context_data(user=models.UserProfile.get(user=self.request.user),
+                                                      message=self.request.session.pop('message', None),
+                                                      **self.context)
+
+    def dispatch(self, request, *args, **kwargs):
+        return login_required_redirect(request, super(FormView, self).dispatch,
+                                       message=None,
+                                       redirect_to=self.redirect,
+                                       enforce=self.login_required,
+                                       users=self.users,
+                                       blacklist=self.blacklist)
