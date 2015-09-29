@@ -22,8 +22,7 @@ class TemplateView(generic.TemplateView):
     def get_context_data(self, **kwargs):
         self.update_context()
         self.context.update(kwargs)
-        return super(TemplateView, self).get_context_data(user=models.UserProfile.objects.get(user=self.request.user),
-                                                          message=self.request.session.pop('message', None),
+        return super(TemplateView, self).get_context_data(message=self.request.session.pop('message', None),
                                                           **self.context)
 
     def dispatch(self, request, *args, **kwargs):
@@ -106,7 +105,7 @@ def login_required_redirect(request, dispatch, message=None, redirect_to=None, e
                             *args, **kwargs):
     if ((not enforce) or request.user.is_authenticated()) and\
             ((models.UserProfile.get(request.user) in users) ^ blacklist):
-        return dispatch(*args, **kwargs)
+        return dispatch(request, *args, **kwargs)
     else:
         return redirect_with_msg(request,
                                  message or 'This page is private.',

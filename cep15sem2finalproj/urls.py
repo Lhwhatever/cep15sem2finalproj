@@ -18,18 +18,19 @@ from django.conf.urls import include, url
 from django.contrib import admin
 import acc.urls
 from cep15sem2finalproj.common.views import TemplateView
+from django.conf.urls.static import static
+from django.conf import settings
 
 
 class HomeView(TemplateView):
-    pass
-
+    template_name = "homepage.html"
+    
 
 urlpatterns = [
 
     # subdomains
     url(r'^admin/', include(admin.site.urls)),
     url(r'^acc/', include(acc.urls.urlpatterns)),
-
     # page
     url(r'^home/', HomeView.as_view()),
-]
+] + static(settings.STATIC_URL, document_root=settings.STATIC_URL)
