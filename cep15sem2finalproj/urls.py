@@ -12,8 +12,8 @@ Class-based views
 Including another URLconf
     1. Add an import:  from blog import urls as blog_urls
     2. Add a URL to urlpatterns:  url(r'^blog/', include(blog_urls))
-"""
 
+"""
 from django.conf.urls import include, url
 from django.contrib import admin
 import acc.urls
@@ -33,4 +33,4 @@ urlpatterns = [
     url(r'^acc/', include(acc.urls.urlpatterns)),
     # page
     url(r'^home/', HomeView.as_view()),
-] + static(settings.STATIC_URL, document_root=settings.STATIC_URL)
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
