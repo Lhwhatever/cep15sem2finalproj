@@ -21,3 +21,9 @@ class LogoutView(generic.View):
 
         return auth.views.logout(request, next_page='/') if request.user.is_authenticated()\
             else redirect_with_msg(request, 'You are already logged out.', 'main_index')
+
+
+class RelogView(generic.View):
+
+    def dispatch(self, request, *args, **kwargs):
+        request.session['Message'] = 'Logged '
