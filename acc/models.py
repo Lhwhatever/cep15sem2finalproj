@@ -15,3 +15,8 @@ class UserProfile(models.Model):
     @classmethod
     def get(cls, user):
         return cls.objects.all.get(user=user) if user.is_authenticated() else None
+
+
+class BasePrivacySettings(models.Model):
+    owner = models.OneToOneField(User)
+    settings = models.CharField(max_length=2, choices=())
