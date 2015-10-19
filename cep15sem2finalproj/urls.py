@@ -25,6 +25,17 @@ from django.conf import settings
 class HomeView(TemplateView):
     template_name = "homepage.html"
     
+class LoginView(TemplateView):
+    template_name = "loginpage.html"
+    
+class EventView(TemplateView):
+    template_name = "eventpage.html"
+    
+class RankingView(TemplateView):
+    template_name = "rankinglist.html"
+    
+class ProfileView(TemplateView):
+    template_name = "profilepage.html"
 
 urlpatterns = [
 
@@ -33,4 +44,8 @@ urlpatterns = [
     url(r'^acc/', include(acc.urls.urlpatterns)),
     # page
     url(r'^home/', HomeView.as_view()),
+    url(r'^login/', LoginView.as_view()),
+    url(r'^event/', EventView.as_view()),
+    url(r'^ranking/', RankingView.as_view()),
+    url(r'^profile/', ProfileView.as_view()),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

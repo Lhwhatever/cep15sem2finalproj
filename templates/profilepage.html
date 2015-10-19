@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
 {% load staticfiles %}
-
 <head>
+    <head>
     <link rel="stylesheet" href="{% static 'bootstrap-3.3.5-dist/css/bootstrap.min.css' %}">
         <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -10,40 +10,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 </head>
-<style>
-body{
-  background-color:lighter gray;
-}
-.jumbotron{
-  background-color:white;
-  text-align:center;
-}
-.broadcast{
-  border:10px;
-  margin:10px;
-  border-color:black;
-  background-color:black;
-}
-.title1{
-  font-size:36px;
-  font-style:oblique;
-  margin-left:15%;
-  margin-bottom:5px;
-  
-}
-.apple{
-  position:relative;
-  margin-left:10%;
-  background-color:black;
-}
-.mediafeed{
-  position:absolute;
-  margin-left:45%;
-  height:43%;
-  width:45%;
-
-}
-</style>
+</head>
 
 <body>
     <script src = "{% static 'jquery-1.11.3.min.js' %}"></script>
@@ -65,7 +32,7 @@ body{
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li class="active"><a href="#">Home <span class="sr-only">(current)</span></a></li>
+        <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>
         <li><a href="#">Link</a></li>
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Categories <span class="caret"></span></a>
@@ -73,6 +40,10 @@ body{
             <li><a href="#">Action</a></li>
             <li><a href="#">Another action</a></li>
             <li><a href="#">Something else here</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="#">Separated link</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="#">One more separated link</a></li>
           </ul>
         </li>
       </ul>
@@ -85,7 +56,7 @@ body{
       <ul class="nav navbar-nav navbar-right">
         <li><a href="#">Link</a></li>
         <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">welcom user <span class="caret"></span></a>
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
           <ul class="dropdown-menu">
             <li><a href="#">Action</a></li>
             <li><a href="#">Another action</a></li>
@@ -98,29 +69,5 @@ body{
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>
-<div class="jumbotron">
-  <h1>Welcome to the 1v1!</h1>
-  <p>A platform for games and tournaments</p>
-</div>
-<div class = "title1">
-  Happening now:
-  </div>
-<div class="apple">
-  <div class="col-sm-6 col-md-4">
-    <div class="thumbnail">
-      <img src="http://vignette1.wikia.nocookie.net/the-frollo-show/images/8/89/941_render_shrek_3.png/revision/latest?cb=20140625091916">
-      <div class="caption">
-        <h3>Faze Clan vs Optic Gaming</h3>
-        <p>Best of 5 Grand Finals at MLG 2015</p>
-        <p><a href="#" class="btn btn-primary" role="button">Watch Stream</a></p>
-      </div>
-    </div>
-  </div>
-</div>
-<div class = "mediafeed">
-  Tweets, Events ETC
-  Twitter / Facebook API
-</div>
-Recent Matches: Upcoming Matches:
 </body>
 </html>
