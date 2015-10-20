@@ -22,7 +22,8 @@ class TemplateView(generic.TemplateView):
     def get_context_data(self, **kwargs):
         self.update_context()
         self.context.update(kwargs)
-        return super(TemplateView, self).get_context_data(message=self.request.session.pop('message', None),
+        return super(TemplateView, self).get_context_data(user=models.UserProfile.get(self.request.user),
+                                                          message=self.request.session.pop('message', None),
                                                           **self.context)
 
     def dispatch(self, request, *args, **kwargs):
@@ -52,7 +53,7 @@ class ListView(generic.ListView):
     def get_context_data(self, **kwargs):
         self.update_context()
         self.context.update(kwargs)
-        return super(ListView, self).get_context_data(user=models.UserProfile.objects.get(user=self.request.user),
+        return super(ListView, self).get_context_data(user=models.UserProfile.get(self.request.user),
                                                       message=self.request.session.pop('message', None),
                                                       **self.context)
 
@@ -127,7 +128,7 @@ class FormView(generic.FormView):
     def get_context_data(self, **kwargs):
         self.update_context()
         self.context.update()
-        return super(FormView, self).get_context_data(user=models.UserProfile.get(user=self.request.user),
+        return super(FormView, self).get_context_data(user=models.UserProfile.get(self.request.user),
                                                       message=self.request.session.pop('message', None),
                                                       **self.context)
 

@@ -10,7 +10,7 @@ from cep15sem2finalproj.common.views import redirect_with_msg
 class LoginView(common.views.FormView):
 
     def dispatch(self, request, *args, **kwargs):
-        return redirect_with_msg(request, 'You are already logged in.', 'main_index',
+        return redirect_with_msg(request, 'You are already logged in.', 'home',
                                  permanent=False, *args, **kwargs)
 
 
