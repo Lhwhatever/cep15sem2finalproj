@@ -1,1 +1,1 @@
-__author__ = 'lin'
+from . import views

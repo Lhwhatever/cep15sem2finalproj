@@ -20,32 +20,16 @@ import acc.urls
 from cep15sem2finalproj.common.views import TemplateView
 from django.conf.urls.static import static
 from django.conf import settings
+import home.views
+import onevone
 
-
-class HomeView(TemplateView):
-    template_name = "homepage.html"
-    
-class LoginView(TemplateView):
-    template_name = "loginpage.html"
-    
-class EventView(TemplateView):
-    template_name = "eventpage.html"
-    
-class RankingView(TemplateView):
-    template_name = "rankinglist.html"
-    
-class ProfileView(TemplateView):
-    template_name = "profilepage.html"
 
 urlpatterns = [
 
     # subdomains
     url(r'^admin/', include(admin.site.urls)),
     url(r'^acc/', include(acc.urls.urlpatterns)),
+    url(r'^', include(onevone.urls.urlpatterns)),
     # page
-    url(r'^home/', HomeView.as_view()),
-    url(r'^login/', LoginView.as_view()),
-    url(r'^event/', EventView.as_view()),
-    url(r'^ranking/', RankingView.as_view()),
-    url(r'^profile/', ProfileView.as_view()),
+    url(r'^home/$', home.views.HomeView.as_view()),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

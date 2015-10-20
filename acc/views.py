@@ -27,3 +27,7 @@ class RelogView(generic.View):
 
     def dispatch(self, request, *args, **kwargs):
         request.session['Message'] = 'Logged '
+
+
+class ProfileView(common.views.DetailView):
+    template_name = "profilepage.html"
