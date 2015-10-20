@@ -30,3 +30,7 @@ body {
   width:45%;
 
 }
+
+.dropdown:hover .dropdown-menu {
+  display:block;
+}
