@@ -6,12 +6,14 @@ import acc
 
 
 class Location(models.Model):
+    app_label = 'onevone'
     name = models.CharField(max_length=31)
     full_text = models.TextField()
     is_online = models.BooleanField()
     
     
 class PrivacySettings(acc.models.BasePrivacySettings):
+    app_label = 'onevone'
     SETTINGS = (
         (0, 'Completely private'),
         (1, 'Open for spectating'),
@@ -25,6 +27,7 @@ class PrivacySettings(acc.models.BasePrivacySettings):
     
     
 class Match(models.Model):
+    app_label = 'onevone'
     name = models.CharField(max_length=255)
     description = models.TextField()
 
@@ -39,6 +42,7 @@ class Match(models.Model):
     
     
 class GameCategory(models.Model):
+    app_label = 'onevone'
     name = models.CharField(max_length=31)
     description = models.TextField()
 
@@ -49,6 +53,7 @@ class GameCategory(models.Model):
 
 
 class Tournament(models.Model):
+    app_label = 'onevone'
     name = models.CharField(max_length=255)
     description = models.TextField()
 
