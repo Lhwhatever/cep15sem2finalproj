@@ -20,3 +20,11 @@ class UserProfile(models.Model):
 class BasePrivacySettings(models.Model):
     owner = models.OneToOneField(User)
     settings = models.CharField(max_length=2, choices=())
+    
+    
+class Messages(models.Model):
+    subject = models.CharField(max_length=255)
+    content = models.TextField()
+    
+    sender = models.ForeignKey(UserProfile, related_name='sended')
+    recipient = models.ForeignKey(UserProfile, related_name='received')

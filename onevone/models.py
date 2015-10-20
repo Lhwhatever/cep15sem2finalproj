@@ -28,8 +28,8 @@ class Match(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField()
 
-    owner = models.OneToOneField(acc.models.UserProfile, related_name="match_owner")
-    participants = models.ForeignKey(acc.models.UserProfile, related_name="match_participants")
+    owner = models.OneToOneField(acc.models.UserProfile, related_name="owned_matches")
+    participants = models.ForeignKey(acc.models.UserProfile, related_name="participated_matches")
 
     location = models.OneToOneField(Location)
     time_start = models.DateTimeField(verbose_name="Starting time")
@@ -52,8 +52,8 @@ class Tournament(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField()
 
-    owner = models.OneToOneField(acc.models.UserProfile, related_name="tourney_owner")
-    participants = models.ForeignKey(acc.models.UserProfile, related_name="tourney_participants")
+    owner = models.OneToOneField(acc.models.UserProfile, related_name="owned_tourneys")
+    participants = models.ForeignKey(acc.models.UserProfile, related_name="participated_tourneys")
 
     location = models.OneToOneField(Location)
     time_start = models.DateTimeField(verbose_name="Starting time")
