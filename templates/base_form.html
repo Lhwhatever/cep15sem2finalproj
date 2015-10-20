@@ -1,0 +1,29 @@
+{% extends 'homepage.html' %}
+{% load static %}
+
+{% block content %}
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h1 class="panel-title">{% block formtitle %}Form{% endblock %}</h1>
+    </div>
+    <div class="panel-body">
+        {% block alert %}
+        {% endblock %}
+        <form action="" method="POST" class="form-horizontal">
+            {% csrf_token %}
+            {% include 'form_snippet.html' %}
+            <div class="btn-group col-sm-offset-2 col-sm-9">
+                <input class="btn btn-success" type="submit">
+                <a href="javascript:history.back()" class="btn btn-danger">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block other %}
+<script src="{% static 'form.js' %}"></script>
+<script>
+    setup();
+</script>
+{% endblock %}
