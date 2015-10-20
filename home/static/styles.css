@@ -1,0 +1,32 @@
+body {
+  background-color:lighter gray;
+}
+.jumbotron {
+  background-color:white;
+  text-align:center;
+}
+.broadcast {
+  border:10px;
+  margin:10px;
+  border-color:black;
+  background-color:black;
+}
+.title1 {
+  font-size:36px;
+  font-style:oblique;
+  margin-left:15%;
+  margin-bottom:5px;
+
+}
+.apple {
+  position:relative;
+  margin-left:10%;
+  background-color:black;
+}
+.mediafeed {
+  position:absolute;
+  margin-left:45%;
+  height:43%;
+  width:45%;
+
+}
