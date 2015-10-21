@@ -5,14 +5,6 @@ from . import models, forms
 from cep15sem2finalproj import common
 
 
-class EventView(common.views.ListView):
-    template_name = "eventpage.html"
-
-
-class RankingView(common.views.ListView):
-    template_name = "rankinglist.html"
-
-
 class MatchListView(common.views.ListView):
     model = models.Match
     template_name = "match_list.html"
@@ -36,3 +28,4 @@ class MatchCreateView(common.views.CreateView):
     model = models.Match
     login_required = True
     set_default_user = True
+    template_name = "match_form.html"
