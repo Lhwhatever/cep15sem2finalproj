@@ -2,7 +2,7 @@ from django.conf import settings
 from django.shortcuts import redirect
 from django.views import generic
 from acc import models
-
+import acc
 
 
 def get_categories():
@@ -148,3 +148,39 @@ class FormView(generic.FormView):
                                        enforce=self.login_required,
                                        users=self.users,
                                        blacklist=self.blacklist)
+
+
+class CreateView(generic.CreateView):
+    context = {}
+
+    login_required = True
+    users = ()
+    blacklist = True
+    redirect = None
+
+    set_default_user = False
+
+    def update_context(self):
+        pass
+
+    def get_context_data(self, **kwargs):
+        self.update_context()
+        self.context.update()
+        return super(CreateView, self).get_context_data(user=models.UserProfile.get(self.request.user),
+                                                        message=self.request.session.pop('message', None),
+                                                        categories=get_categories(),
+                                                        **self.context)
+
+    def dispatch(self, request, *args, **kwargs):
+        return login_required_redirect(request, super(CreateView, self).dispatch,
+                                       mesage=None,
+                                       redirect_to=self.redirect,
+                                       enforce=self.login_required,
+                                       users=self.users,
+                                       blacklist=self.blacklist)
+
+    def get_initial(self):
+        initial = super(CreateView, self).get_initial().copy()
+        if self.set_default_user:
+            initial['owner'] = acc.models.UserProfile.get(self.request.user)
+        return initial

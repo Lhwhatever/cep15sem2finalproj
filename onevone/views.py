@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from . import models
+from . import models, forms
 
 # Create your views here.
 from cep15sem2finalproj import common
@@ -29,3 +29,10 @@ class MatchListView(common.views.ListView):
 class MatchDetailView(common.views.DetailView):
     template_name = "match_details.html"
     model = models.Match
+
+
+class MatchCreateView(common.views.CreateView):
+    form_class = forms.MatchForm
+    model = models.Match
+    login_required = True
+    set_default_user = True
