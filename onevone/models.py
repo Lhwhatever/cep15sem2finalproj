@@ -5,6 +5,7 @@ import base64
 
 # Create your models here.
 import acc
+import home
 
 PRIVACY_SETTINGS = (
         (0, 'Completely private'),
@@ -23,7 +24,7 @@ class Location(models.Model):
         return "{0!s}{1}".format(self.name, " (online)" if self.is_online else "")
     
     
-class Match(models.Model):
+class Match(home.models.ObfuscatedPkModel):
     app_label = 'onevone'
 
     name = models.CharField(max_length=255)
@@ -43,14 +44,6 @@ class Match(models.Model):
     
     def __str__(self):
         return "{0!s}'s {1!s}".format(self.owner, self.name)
-
-    @property
-    def hash_id(self):
-        print(self.pk.to_bytes(2, byte_order='big'))
-        m = hashlib.sha256()
-        m.update(self.pk.to_bytes(2, byte_order='big'))
-        x = m.digest()
-        return base64.b64encode(x.encode('utf-8'))
     
     
 class GameCategory(models.Model):
