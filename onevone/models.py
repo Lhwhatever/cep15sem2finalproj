@@ -37,6 +37,7 @@ class PrivacySettings(acc.models.BasePrivacySettings):
 class Match(models.Model):
     app_label = 'onevone'
     name = models.CharField(max_length=255)
+    game = models.CharField(max_length=255)
     description = models.TextField()
 
     owner = models.OneToOneField(acc.models.UserProfile, related_name="owned_matches")
@@ -54,7 +55,8 @@ class Match(models.Model):
     
 class GameCategory(models.Model):
     app_label = 'onevone'
-    name = models.CharField(max_length=31)
+    name = models.CharField(max_length=63)
+    label = models.CharField(max_length=15)
     description = models.TextField()
 
     games = models.ForeignKey(Match, blank=True, null=True)
