@@ -19,9 +19,9 @@ class MatchListView(common.views.ListView):
 
     def get_queryset(self):
         list_filter = self.kwargs.get('filter', None)
-        return self.model.objects.filter(category__label=list_filter) if list_filter \
-            else super(MatchListView, self).get_queryset()
-
+        return self.model.objects.filter(category__label=list_filter, privacy__gt=0) if list_filter \
+            else self.model.objects.filter(privacy__gt=0)
+            
     def update_context(self, **kwargs):
         self.context['filter'] = self.kwargs.get('filter', None)
 
