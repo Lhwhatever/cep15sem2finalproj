@@ -1,11 +1,67 @@
 {% extends 'homepage.html' %}
+{% load humanize %}
+
 {% block content %}
 <div class='panel panel-primary'>
     <div class="panel-heading">
         <h1 class="panel-title">{{ object.name }}</h1>
     </div>
     <div class="panel-body">
-        Help
+        <h2>Match Details</h2>
+        <table class="table table-striped table-horizontal">
+            <tr>
+                <th>Initiated by</th>
+                <td>{{ object.owner }}</td>
+            </tr>
+            <tr>
+                <th>Game</th>
+                <td>{{ object.game }}</td>
+            </tr>
+            <tr>
+                <th>Category</th>
+                <td>{{ object.category }}</td>
+            </tr>
+            <tr>
+                <th>Status</th>
+                <td>{{ object.participants.all|length }} / {{ object.vacancies }}</td>
+            </tr>
+            <tr>
+                <th>Privacy Settings</th>
+                <td>{{ object.privacy_settings }}</td>
+            </tr>
+            <tr>
+                <th>Starting time</th>
+                <td>{{ object.time_start|naturaltime }}</td>
+            </tr>
+            <tr>
+                <th>Ending time</th>
+                <td>{{ object.time_end|naturaltime }}</td>
+            </tr>
+        </table>
+        
+        <h2>Match Location</h2>
+        <strong>Location: </strong> {{ object.location }} <br>
+        {{ object.location.full_text }}
+        
+        <h2>Participants List</h2>
+        <table class="table table-striped table-horizontal">
+            {% if object.participants.all %}
+            <tbody>
+                <tr>
+                    {% for p in object.participants.all %}
+                    <td>{{ p }}</td>
+                    {% cycle '' '' '' '' '</tr><tr>' %}
+                    {% endfor %}
+                </tr>
+            </tbody>
+            {% else %}
+            <tfoot>
+                <tr>
+                    <td rowspan='2'>Nobody is participating in this match so far.</td>
+                </tr>
+            </tfoot>
+            {% endif %}
+        </table>
     </div>
 </div>
 {% endblock %}
