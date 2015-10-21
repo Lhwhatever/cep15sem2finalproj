@@ -29,3 +29,8 @@ class MatchCreateView(common.views.CreateView):
     login_required = True
     set_default_user = True
     template_name = "match_form.html"
+
+    def dispatch(self, request, *args, **kwargs):
+        a = super(MatchCreateView, self).dispatch(request, *args, **kwargs)
+        print(kwargs.form)
+        return a
