@@ -22,16 +22,28 @@ class Location(models.Model):
     def __str__(self):
         return "{0!s}{1}".format(self.name, " (online)" if self.is_online else "")
     
-    
+
+class GameCategory(models.Model):
+    app_label = 'onevone'
+    name = models.CharField(max_length=63)
+    label = models.CharField(max_length=15)
+    description = models.TextField()
+
+    def __str__(self):
+        return self.name
+        
+
 class Match(models.Model):
     app_label = 'onevone'
 
     name = models.CharField(max_length=255)
     game = models.CharField(max_length=255)
     description = models.TextField()
+    
+    category = models.ForeignKey(GameCategory)
 
     owner = models.ForeignKey(acc.models.UserProfile, related_name="owned_matches")
-    participants = models.ManyToManyField(acc.models.UserProfile, related_name="participated_matches")
+    participants = models.ManyToManyField(acc.models.UserProfile, related_name="participated_matches", blank=True)
     
     vacancies = models.IntegerField()
 
@@ -43,25 +55,10 @@ class Match(models.Model):
     
     def __str__(self):
         return "{0!s}'s {1!s}".format(self.owner, self.name)
-
+        
     @property
-    def hash_id(self):
-        m = hashlib.sha256()
-        m.update(self.pk.to_bytes(2, byte_order='big'))
-        x = m.digest()
-        return base64.b64encode(x.encode('utf-8'))
-    
-    
-class GameCategory(models.Model):
-    app_label = 'onevone'
-    name = models.CharField(max_length=63)
-    label = models.CharField(max_length=15)
-    description = models.TextField()
-
-    games = models.ForeignKey(Match, blank=True, null=True)
-
-    def __str__(self):
-        return self.name
+    def privacy_settings(self):
+        return [item for item in PRIVACY_SETTINGS if item[0] == self.privacy][0][1]
 
 
 class Tournament(models.Model):

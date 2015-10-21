@@ -1,9 +1,10 @@
 {% extends 'homepage.html' %}
+{% load humanize %}
 
 {% block content %}
 <div class="panel panel-primary">
     <div class="panel-heading">
-        <h1 class="panel-title">Match Index</h1>
+        <h1 class="panel-title">Match Index {{ filter }}</h1>
     </div>
     <div class="panel-body">
 
@@ -21,14 +22,16 @@
             {% if object_list %}
             <tbody>
             {% for match in object_list %}
+            {% if not filter or match.category.label == filter %}
             <tr>
-                <td>{{ match.name }} {{ match.hash_id }}</td>
-                <td>{{ match.game }}</td>
+                <td><a href="{% url 'match.detail' match.pk %}">{{ match.name }}</a></td>
+                <td>{{ match.category }}: {{ match.game }}</td>
                 <td>{{ match.owner }}</td>
-                <td>{{ match.participants|length }} / {{ match.vacancies }}</td>
+                <td>{{ match.participants.all|length }} / {{ match.vacancies }}</td>
                 <td>{{ match.location }}</td>
-                <td>Placeholder<td>
+                <td>{{ match.time_start }} to {{ match.time_end }}<td>
             </tr>
+            {% endif %}
             {% endfor %}
             </tbody>
             {% else %}
