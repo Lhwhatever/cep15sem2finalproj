@@ -16,11 +16,11 @@ class TemplateView(generic.TemplateView):
     blacklist = True
     redirect = None
 
-    def update_context(self):
+    def update_context(self, **kwargs):
         pass
 
     def get_context_data(self, **kwargs):
-        self.update_context()
+        self.update_context(**kwargs)
         self.context.update(kwargs)
         return super(TemplateView, self).get_context_data(user=models.UserProfile.get(self.request.user),
                                                           message=self.request.session.pop('message', None),
@@ -47,11 +47,11 @@ class ListView(generic.ListView):
     blacklist = True
     redirect = None
 
-    def update_context(self):
+    def update_context(self, **kwargs):
         pass
 
     def get_context_data(self, **kwargs):
-        self.update_context()
+        self.update_context(**kwargs)
         self.context.update(kwargs)
         return super(ListView, self).get_context_data(user=models.UserProfile.get(self.request.user),
                                                       message=self.request.session.pop('message', None),
@@ -78,11 +78,11 @@ class DetailView(generic.DetailView):
     blacklist = True
     redirect = None
 
-    def update_context(self):
+    def update_context(self, **kwargs):
         pass
 
     def get_context_data(self, **kwargs):
-        self.update_context()
+        self.update_context(**kwargs)
         self.context.update(kwargs)
         return super(DetailView, self).get_context_data(user=models.UserProfile.get(self.request.user),
                                                         message=self.request.session.pop('message', None),
@@ -122,11 +122,11 @@ class FormView(generic.FormView):
     blacklist = True
     redirect = None
 
-    def update_context(self):
+    def update_context(self, **kwargs):
         pass
 
     def get_context_data(self, **kwargs):
-        self.update_context()
+        self.update_context(**kwargs)
         self.context.update()
         return super(FormView, self).get_context_data(user=models.UserProfile.get(self.request.user),
                                                       message=self.request.session.pop('message', None),

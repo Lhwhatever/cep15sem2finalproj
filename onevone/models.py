@@ -1,4 +1,6 @@
 from django.db import models
+import hashlib
+import base64
 
 
 # Create your models here.
@@ -36,6 +38,7 @@ class PrivacySettings(acc.models.BasePrivacySettings):
     
 class Match(models.Model):
     app_label = 'onevone'
+
     name = models.CharField(max_length=255)
     game = models.CharField(max_length=255)
     description = models.TextField()
@@ -51,6 +54,13 @@ class Match(models.Model):
     
     def __str__(self):
         return "{0!s}'s {1!s}".format(self.owner, self.name)
+
+    @property
+    def hash_id(self):
+        m = hashlib.sha256()
+        m.update(self.pk)
+        x = m.digest()
+        return base64.b64encode(x.encode('utf-8'))
     
     
 class GameCategory(models.Model):
