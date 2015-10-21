@@ -4,6 +4,20 @@ from django.views import generic
 from acc import models
 
 
+global CATEGORIES
+CATEGORIES = None
+
+
+def get_categories():
+    global CATEGORIES
+    if CATEGORIES:
+        return CATEGORIES
+    else:
+        import onevone.models
+        CATEGORIES = onevone.models.objects.all().order_by('name')
+        return get_categories()
+
+
 class TemplateView(generic.TemplateView):
     """
     Generic template view file.
@@ -56,6 +70,7 @@ class ListView(generic.ListView):
         self.context.update(kwargs)
         return super(ListView, self).get_context_data(user=models.UserProfile.get(self.request.user),
                                                       message=self.request.session.pop('message', None),
+                                                      category=get_categories(),
                                                       **self.context)
 
     def dispatch(self, request, *args, **kwargs):
@@ -87,6 +102,7 @@ class DetailView(generic.DetailView):
         self.context.update(kwargs)
         return super(DetailView, self).get_context_data(user=models.UserProfile.get(self.request.user),
                                                         message=self.request.session.pop('message', None),
+                                                        category=get_categories(),
                                                         **self.context)
 
     def dispatch(self, request, *args, **kwargs):
