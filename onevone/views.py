@@ -18,7 +18,8 @@ class MatchListView(common.views.ListView):
     template_name = "match_list.html"
 
     def get_queryset(self):
-        return self.model.objects.get(category__label=filter) if self.kwargs.get('filter', None) \
+        list_filter = self.kwargs.get('filter', None)
+        return self.model.objects.filter(category__label=list_filter) if list_filter \
             else super(MatchListView, self).get_queryset()
 
     def update_context(self, **kwargs):
