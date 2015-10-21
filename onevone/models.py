@@ -52,6 +52,8 @@ class Match(models.Model):
     time_end = models.DateTimeField(verbose_name="Ending time")
 
     privacy = models.IntegerField(verbose_name="Privacy settings", choices=PRIVACY_SETTINGS)
+
+    matches = models.ForeignKey(Tournament, blank=True)
     
     def __str__(self):
         return "{0!s}'s {1!s}".format(self.owner, self.name)
@@ -64,15 +66,21 @@ class Match(models.Model):
 class Tournament(models.Model):
     app_label = 'onevone'
     name = models.CharField(max_length=255)
+    game = models.CharField(max_length=255)
     description = models.TextField()
+
+    category = models.ForeignKey(GameCategory)
 
     owner = models.ForeignKey(acc.models.UserProfile, related_name="owned_tourneys")
     participants = models.ManyToManyField(acc.models.UserProfile, related_name="participated_tourneys", blank=True)
+    vacancies = models.IntegerField()
 
     location = models.OneToOneField(Location)
     time_start = models.DateTimeField(verbose_name="Starting time")
     time_end = models.DateTimeField(verbose_name="Ending time")
 
-    matches = models.ForeignKey(Match)
-
     privacy = models.IntegerField(verbose_name="Privacy settings", choices=PRIVACY_SETTINGS)
+
+    @property
+    def privacy_settings(self):
+        return [item for item in PRIVACY_SETTINGS if item[0] == self.privacy][0][1]

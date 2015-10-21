@@ -1,0 +1,70 @@
+{% extends 'base_form.html' %}
+{% load humanize %}
+
+{% block content %}
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h1 class="panel-title">{{ tourney }}</h1>
+    </div>
+    <div class="panel-body">
+        <h2>Tournament Details</h2>
+        <table class="table table-striped table-horizontal">
+            <tbody>
+                <tr>
+                    <th>Initiated by</th>
+                    <td>{{ tourney.owner }}</td>
+                </tr>
+                <tr>
+                    <th>Game</th>
+                    <td>{{ tourney.game }}</td>
+                </tr>
+                <tr>
+                    <th>Category</th>
+                    <td>{{ tourney.game }}</td>
+                </tr>
+                <tr>
+                    <th>Status</th>
+                    <td>{{ tourney.participants.all|length }} / {{ tourney.vacancies }}</td>
+                </tr>
+                <tr>
+                    <th>Starting Time</th>
+                    <td>{{ tourney.time_start|naturaltime }}</td>
+                </tr>
+                <tr>
+                    <th>Privacy Settings</th>
+                    <td>{{ tourney.privacy_settings }}</td>
+                </tr>
+                <tr>
+                    <th>Ending Time</th>
+                    <td>{{ tourney.time_end|naturaltime }}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>Tournament Location</h2>
+        <strong>Location: </strong> {{ object.location }}
+
+        <h2>Participants List</h2>
+        <table class="table table-striped table-horizontal">
+            {% if object.participants.all %}
+            <tbody>
+            <tr>
+                {% for p in object.participants.all %}
+                <td>{{ p }}</td>
+                {% cycle '' '' '' '' '</tr><tr>' %}
+                {% endfor %}
+            </tr>
+            </tbody>
+            {% else %}
+            <tfoot>
+            <tr>
+                <td rowspan='2'>Nobody is participating in this match so far.</td>
+            </tr>
+            </tfoot>
+            {% endif %}
+        </table>
+
+        <h2>List of Matches</h2>
+    </div>
+</div>
+{% endblock %}

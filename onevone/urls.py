@@ -10,5 +10,9 @@ urlpatterns = patterns(
     url(r'^match/d/(?P<pk>\d+)$', views.MatchDetailView.as_view(), name='match.detail'),
     
     url(r'^match/l/c/$', views.MatchCreateView.as_view(), name='match.create'),
+
+    url(r'^tourney/l*$', views.TourneyListView.as_view(), name='tourney.index'),
+    url(r'^tourney/l/(?P<filter>\w+)$', views.TourneyListView.as_view(), name='tourney.filtered'),
+    url(r'^tourney/d/(?P<pk>\d+)$', views.MatchDetailView.as_view(), name='tourney.detail'),
 )
 
