@@ -17,6 +17,9 @@ class MatchListView(common.views.ListView):
     model = models.Match
     template_name = "match_list.html"
 
+    def update_context(self, **kwargs):
+        self.context['filter'] = self.kwargs.get('filter', None)
+
 
 class MatchDetailView(common.views.DetailView):
     template_name = "match_details.html"
