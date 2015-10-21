@@ -1,6 +1,7 @@
 from django.contrib import auth
 from django.contrib.auth import views as authviews
 from django.shortcuts import render
+from . import models
 
 # Create your views here.
 from django.views import generic
@@ -14,7 +15,7 @@ class LoginView(common.views.FormView):
 
     def dispatch(self, request, *args, **kwargs):
         return redirect_with_msg(request, 'You are already logged in.', 'home', permanent=False, *args, **kwargs) \
-            if request.user.is_authenticated() else authviews.login(request, next_page='/')
+            if request.user.is_authenticated() else authviews.login(request, template_name='loginpage.html', extra_context={'user': models.UserProfile.get(self.request.user)})
 
 
 class LogoutView(generic.View):

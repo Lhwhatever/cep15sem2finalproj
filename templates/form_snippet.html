@@ -6,7 +6,7 @@
     </div>
     {% endif %}
 
-    {% if field.field.widget|fieldtype == 'CheckboxInput' %}
+    <!--{#{% if field.field.widget|fieldtype == 'CheckboxInput' %}#}
     <div class="col-xs-offset-0 col-sm-offset-1 col-sm-9">
         <div class="checkbox">
             <label data-toggle="{{ field.helptext|yesno:'tooltip,'  }}" data-placement="{{ field.helptext|yesno:'left,' }}" title="{{ field.helptext }}" >
@@ -14,11 +14,11 @@
             </label>
         </div>
     </div>
-    {% else %}
+    {#{% else %}#}-->
     {{ field.label_tag }}
     <div class="col-sm-9 input-group">
         {{ field }}
     </div>
-    {% endif %}
+    {#{% endif %}#}
 </div>
 {% endfor %}
