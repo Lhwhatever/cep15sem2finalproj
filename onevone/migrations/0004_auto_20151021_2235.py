@@ -7,13 +7,13 @@ from django.db import models, migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('onevone', '0001_initial'),
+        ('onevone', '0003_auto_20151021_2233'),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='gamecategory',
-            name='games',
-            field=models.ForeignKey(to='onevone.Match', null=True, blank=True),
+            model_name='tournament',
+            name='participants',
+            field=models.ManyToManyField(blank=True, to='acc.UserProfile', related_name='participated_tourneys'),
         ),
     ]

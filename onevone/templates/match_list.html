@@ -22,10 +22,10 @@
             <tbody>
             {% for match in object_list %}
             <tr>
-                <td>{{ match.name }}</td>
+                <td>{{ match.name }} {{ match.hash_id }}</td>
                 <td>{{ match.game }}</td>
                 <td>{{ match.owner }}</td>
-                <td>{{ match.status }}</td>
+                <td>{{ match.participants|length }} / {{ match.vacancies }}</td>
                 <td>{{ match.location }}</td>
                 <td>Placeholder<td>
             </tr>

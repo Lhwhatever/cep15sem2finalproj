@@ -23,19 +23,6 @@ class Location(models.Model):
         return "{0!s}{1}".format(self.name, " (online)" if self.is_online else "")
     
     
-class PrivacySettings(acc.models.BasePrivacySettings):
-    app_label = 'onevone'
-    
-
-    allow_regardless = models.ForeignKey(acc.models.UserProfile, related_name="allowed_for")
-    restrict_regardless = models.ForeignKey(acc.models.UserProfile, related_name="restricted_for")
-
-    mode = models.IntegerField(verbose_name='Settings', choices=PRIVACY_SETTINGS)
-    
-    def __str__(self):
-        return PRIVACY_SETTINGS[self.mode]
-    
-    
 class Match(models.Model):
     app_label = 'onevone'
 
@@ -43,22 +30,25 @@ class Match(models.Model):
     game = models.CharField(max_length=255)
     description = models.TextField()
 
-    owner = models.OneToOneField(acc.models.UserProfile, related_name="owned_matches")
-    participants = models.ForeignKey(acc.models.UserProfile, related_name="participated_matches")
+    owner = models.ForeignKey(acc.models.UserProfile, related_name="owned_matches")
+    participants = models.ManyToManyField(acc.models.UserProfile, related_name="participated_matches")
+    
+    vacancies = models.IntegerField()
 
     location = models.OneToOneField(Location)
     time_start = models.DateTimeField(verbose_name="Starting time")
     time_end = models.DateTimeField(verbose_name="Ending time")
 
-    privacy = models.OneToOneField(PrivacySettings)
+    privacy = models.IntegerField(verbose_name="Privacy settings", choices=PRIVACY_SETTINGS)
     
     def __str__(self):
         return "{0!s}'s {1!s}".format(self.owner, self.name)
 
     @property
     def hash_id(self):
+        print(self.pk.to_bytes(2, byte_order='big'))
         m = hashlib.sha256()
-        m.update(self.pk)
+        m.update(self.pk.to_bytes(2, byte_order='big'))
         x = m.digest()
         return base64.b64encode(x.encode('utf-8'))
     
@@ -80,8 +70,8 @@ class Tournament(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField()
 
-    owner = models.OneToOneField(acc.models.UserProfile, related_name="owned_tourneys")
-    participants = models.ForeignKey(acc.models.UserProfile, related_name="participated_tourneys")
+    owner = models.ForeignKey(acc.models.UserProfile, related_name="owned_tourneys")
+    participants = models.ManyToManyField(acc.models.UserProfile, related_name="participated_tourneys", blank=True)
 
     location = models.OneToOneField(Location)
     time_start = models.DateTimeField(verbose_name="Starting time")
@@ -89,4 +79,4 @@ class Tournament(models.Model):
 
     matches = models.ForeignKey(Match)
 
-    privacy = models.OneToOneField(PrivacySettings)
+    privacy = models.IntegerField(verbose_name="Privacy settings", choices=PRIVACY_SETTINGS)

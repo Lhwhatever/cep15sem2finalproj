@@ -29,7 +29,7 @@ urlpatterns = [
     # subdomains
     url(r'^admin/', include(admin.site.urls)),
     url(r'^acc/', include(acc.urls.urlpatterns)),
-    url(r'^$/', home.views.HomeView.as_view(), name='home'),
+    url(r'^$', home.views.HomeView.as_view(), name='home'),
     url(r'^', include(onevone.urls.urlpatterns)),
     # page
     url(r'^home/$', home.views.HomeView.as_view(), name='home'),
