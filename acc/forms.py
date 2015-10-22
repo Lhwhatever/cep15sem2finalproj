@@ -24,17 +24,18 @@ class UserProfileForm(ModelForm):
         self._validate_unique = False
         return self.cleaned_data
 
-    def save(self, commit=True):
-        u = models.UserProfile.get(self.user)
-        u.status = self.cleaned_data.get('status')
-        u.save()
-        return u
-
 
 class ComposeForm(ModelForm):
     class Meta:
         model = models.Messages
         fields = '__all__'
         widgets = {
-            'sender': forms.Select(attrs={'readonly': True, 'disabled': True})
+            'sender': forms.Select(attrs={'readonly': True})
         }
+    
+    def full_clean(self):#http://stackoverflow.com/questions/4340287/override-data-validation-on-one-django-form-element
+        super(ComposeForm, self).full_clean()
+        if 'sender' in self._errors:
+            self.cleaned_data['sender'] = []
+            print("remove sender errors")
+            del self._errors['sender']

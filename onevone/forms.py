@@ -19,7 +19,7 @@ class MatchForm(forms.ModelForm):
 
     class Meta:
         model = models.Match
-        fields = ('name', 'game', 'description', 'category', 'vacancies', 'time_start', 'time_end', 'privacy')
+        fields = ('name', 'game', 'description', 'category', 'participants', 'vacancies', 'time_start', 'time_end', 'privacy')
         widgets = {
             'time_start': forms.DateTimeInput(attrs={'class': 'datetimepicker', 'required': True}),
             'time_end': forms.DateTimeInput(attrs={'class': 'datetimepicker', 'required': True})

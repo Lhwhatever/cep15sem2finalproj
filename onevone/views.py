@@ -53,8 +53,8 @@ class MatchCreateView(common.views.TemplateView):
             match.location = location
             match.save()
 
-            return redirect_with_msg(request, 'Match created.', reverse_lazy('match.detail',
-                                                                             kwargs={'pk': self.kwargs['pk']}))
+            return redirect_with_msg(request, 'Match created.', reverse_lazy('match.index'))
+                                                                             
 
 
 class MatchUpdateView(common.views.TemplateView):
@@ -74,8 +74,8 @@ class MatchUpdateView(common.views.TemplateView):
         return super(MatchUpdateView, self).get(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
-        location_form = self.location_form(data=request.POST)
-        match_form = self.match_form(data=request.POST)
+        location_form = self.location_form(data=request.POST, instance=models.Location.objects.get(pk=self.kwargs['pk']))
+        match_form = self.match_form(data=request.POST, instance=models.Match.objects.get(pk=self.kwargs['pk']))
 
         if location_form.is_valid() and match_form.is_valid():
             location = location_form.save()
@@ -83,9 +83,9 @@ class MatchUpdateView(common.views.TemplateView):
             match.owner = acc.models.UserProfile.get(self.request.user)
             match.location = location
             match.save()
+            match_form.save_m2m()
 
-            return redirect_with_msg(request, 'Match updated.', reverse_lazy('match.detail',
-                                                                             kwargs={'pk': self.kwargs['pk']}))
+            return redirect_with_msg(request, 'Match updated.', reverse_lazy('match.index'))
 
 
 class MatchDeleteView(common.views.DeleteView):

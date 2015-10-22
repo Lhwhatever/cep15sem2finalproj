@@ -17,8 +17,9 @@
             </div>
             <div class="panel-body">
                 <strong>Sender:</strong> {{ obj.sender }} <br>
-                <strong>Receipient:</strong> {{ obj.recipient }} <br>
-                {{ obj.content %}
+                <strong>Recipient:</strong> {{ obj.recipient }} <br>
+                <strong>Sent: </strong> {{ obj.sent|naturaltime }} <br>
+                {{ obj.content|safe|linebreaks }}</p>
             </div>
         </div>
         {% endfor %}

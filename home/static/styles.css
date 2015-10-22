@@ -25,6 +25,12 @@ body {
   width:45%;
 
 }
+.matchbutton{
+  text-align:center;
+}
+.buttons{
+  text-align:center;
+}
 
 .dropdown:hover .dropdown-menu {
   display:block;

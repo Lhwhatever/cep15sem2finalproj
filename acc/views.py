@@ -52,20 +52,22 @@ class RegisterView(generic.TemplateView):
         profile_form = self.profile_form(data=request.POST)
 
         if user_form.is_valid() and profile_form.is_valid():
-            user = user_form.save()
-            profile = profile_form.save(commit=False)
-            profile.user = user
-            profile.save()
+            u = user_form.save()
+            p = profile_form.save(commit=False)
+            p.user = u
+            p.save()
+            
+            """
 
             user = authenticate(username=request.POST.get('username'),
                                 password=request.POST.get('password1'))
             login(request, user)
-            return redirect_with_msg(request, 'Welcome!', 'main_index')
+            """
+            return redirect_with_msg(request, 'Welcome!', 'home')
 
         else:
             return redirect_with_msg(
-                request, 'The following errors were found: \n{0} \n{1}'.format(user_form.errors, profile_form.errors),
-                'register'
+                request, 'The following errors were found: \n{0}'.format(user_form.errors), reverse_lazy('register')
             )
 
 
@@ -78,7 +80,7 @@ class InboxView(common.views.ListView):
     template_name = "inbox.html"
 
     def get_queryset(self):
-        return self.model.objects.filter(recipient__id=self.request.user.id)
+        return self.model.objects.filter(recipient__id=models.UserProfile.get(self.request.user).id).order_by('-sent')
 
 
 class ComposeView(common.views.TemplateView):
@@ -87,21 +89,38 @@ class ComposeView(common.views.TemplateView):
     message_form = forms.ComposeForm
 
     def get(self, request, *args, **kwargs):
-        kwargs.setdefault('form', self.message_form(initial={'sender': models.UserProfile.get(request.user)}))
+        initialize = {
+            'sender': models.UserProfile.get(request.user)
+        }
+        
+        recipient = request.GET.get('sendto', None)
+        if recipient:
+            initialize['recipient'] = models.UserProfile.objects.get(id=recipient)
+            
+        preset = request.GET.get('preset', None)
+        if preset == 'askfor':
+            import onevone.models
+            match_id = request.GET.get('id')
+            title = onevone.models.Match.objects.get(id=match_id).name
+            
+            initialize['subject'] = 'Request to join match: {0!s}'.format(title)
+            initialize['content'] = 'Hello, I would like to join the match <a href="/match/d/{0!s}">{1!s}</a>.'.format(match_id, title)
+            
+        kwargs.setdefault('form', self.message_form(initial=initialize))
         return super(ComposeView, self).get(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
-        data = {
-            'subject': request.POST['subject'],
-            'content': request.POST['content'],
-            'sender': str(request.user.id),
-            'recipient': request.POST['recipient']
+        post = {
+            'subject': request.POST.get('subject'),
+            'content': request.POST.get('content'),
+            'recipient': request.POST.get('recipient'),
+            'sender': str(models.UserProfile.get(request.user).id)
         }
-        msg_form = self.message_form(request.POST)
+        msg_form = self.message_form(post)
         if msg_form.is_valid():
-            msg = msg_form.save()
+            msg = msg_form.save(commit=False)
+            print(msg)
             msg.save()
-
             return redirect_with_msg(request, 'Message sent.', reverse_lazy('home'))
         else:
             print(msg_form.errors)

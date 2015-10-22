@@ -3,10 +3,22 @@
 
 {% block content %}
 <div class='panel panel-primary'>
+    
     <div class="panel-heading">
+
         <h1 class="panel-title">{{ object.name }}</h1>
+        
     </div>
     <div class="panel-body">
+        <div class="btn-group" role="group" aria-label="...">
+            <a href="{% url 'match.index' %}" class="btn btn-info">List <span class="glyphicon glyphicon-th-list"></span></a>
+            {% if object.owner == user %}
+            <a href="{% url 'match.update' object.pk %}" class="btn btn-default">Edit <span class="glyphicon glyphicon-pencil"></span> </a>
+            <a href="{% url 'match.delete' object.pk %}" class="btn btn-danger">Delete <span class="glyphicon glyphicon-trash"></span> </a>
+            {% else %}
+            <a href="{% url 'compose' %}?preset=askfor&id={{ object.pk }}&sendto={{ object.owner.pk }}" class="btn btn-default">Request to Join <span></span></a>
+            {% endif %}
+        </div>
         <h2>Match Details</h2>
         <table class="table table-striped table-horizontal">
             <tr>
@@ -39,9 +51,12 @@
             </tr>
         </table>
         
+        <h2>Match Description</h2>
+        <p>{{ object.description|linebreaks }}</p>
+        
         <h2>Match Location</h2>
         <strong>Location: </strong> {{ object.location }} <br>
-        {{ object.location.full_text }}
+        <p>{{ object.location.full_text|linebreaks }}</p>
         
         <h2>Participants List</h2>
         <table class="table table-striped table-horizontal">
@@ -60,6 +75,7 @@
                     <td rowspan='2'>Nobody is participating in this match so far.</td>
                 </tr>
             </tfoot>
+            
             {% endif %}
         </table>
     </div>

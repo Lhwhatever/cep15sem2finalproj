@@ -1,0 +1,21 @@
+{% extends 'homepage.html' %}
+
+{% block content %}
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h1 class="panel-title">Create Match</h1>
+    </div>
+    <div class="panel-body">
+        <form action="" method="POST" class="form-horizontal">
+            {% csrf_token %}
+            {% block forms %}
+            {% include 'form_snippet.html' %}
+            {% endblock %}
+            <div class="btn-group col-sm-offset-2 col-sm-9">
+                <input class="btn btn-success" type="submit">
+                <a href="javascript:history.back()" class="btn btn-danger">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

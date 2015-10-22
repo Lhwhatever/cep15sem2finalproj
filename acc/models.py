@@ -25,3 +25,6 @@ class Messages(models.Model):
     recipient = models.ForeignKey(UserProfile, related_name='received')
 
     sent = models.DateTimeField(verbose_name="Time sent", auto_now=True)
+    
+    def __str__(self):
+        return "Message at {0!s}".format(self.sent)

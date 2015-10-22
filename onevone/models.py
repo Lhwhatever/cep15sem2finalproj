@@ -73,7 +73,7 @@ class Match(models.Model):
     
     vacancies = models.IntegerField()
 
-    location = models.OneToOneField(Location)
+    location = models.ForeignKey(Location)
     time_start = models.DateTimeField(verbose_name="Starting time")
     time_end = models.DateTimeField(verbose_name="Ending time")
 
@@ -87,3 +87,6 @@ class Match(models.Model):
     @property
     def privacy_settings(self):
         return [item for item in PRIVACY_SETTINGS if item[0] == self.privacy][0][1]
+        
+    def get_absolute_url(self):
+        return reverse('match.detail', kwargs={'pk':self.pk})
