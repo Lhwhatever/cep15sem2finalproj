@@ -23,3 +23,5 @@ class Messages(models.Model):
     
     sender = models.ForeignKey(UserProfile, related_name='sended')
     recipient = models.ForeignKey(UserProfile, related_name='received')
+
+    sent = models.DateTimeField(verbose_name="Time sent", auto_now=True)
