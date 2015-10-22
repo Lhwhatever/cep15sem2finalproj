@@ -1,5 +1,6 @@
 from django.contrib import auth
 from django.contrib.auth import views as authviews, authenticate, login
+from django.core.urlresolvers import reverse_lazy
 from django.shortcuts import render
 from . import models
 
@@ -70,3 +71,41 @@ class RegisterView(generic.TemplateView):
 
 class ProfileView(common.views.DetailView):
     template_name = "profilepage.html"
+
+
+class InboxView(common.views.ListView):
+    model = models.Messages
+    template_name = "inbox.html"
+
+    def get_queryset(self):
+        return self.model.objects.filter(recipient__id=self.request.user.id)
+
+
+class ComposeView(common.views.TemplateView):
+    model = models.Messages
+    template_name = "compose.html"
+    message_form = forms.ComposeForm
+
+    def get(self, request, *args, **kwargs):
+        kwargs.setdefault('form', self.message_form(initial={'sender': models.UserProfile.get(request.user)}))
+        return super(ComposeView, self).get(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        data = {
+            'subject': request.POST['subject'],
+            'content': request.POST['content'],
+            'sender': str(request.user.id),
+            'recipient': request.POST['recipient']
+        }
+        msg_form = self.message_form(request.POST)
+        if msg_form.is_valid():
+            msg = msg_form.save()
+            msg.save()
+
+            return redirect_with_msg(request, 'Message sent.', reverse_lazy('home'))
+        else:
+            print(msg_form.errors)
+            return redirect_with_msg(
+                request, 'The following errors were found: \n{0}'.format(msg_form.errors),
+                reverse_lazy('compose')
+            )

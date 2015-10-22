@@ -1,0 +1,38 @@
+{% extends 'homepage.html' %}
+
+{% load humanize %}
+
+{% block content %}
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h1 class="panel-title">Inbox</h1>
+    </div>
+    <div class="panel-body">
+
+        {% if object_list %}
+        {% for obj in object_list %}
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h1 class="panel-title">{{ obj.subject }}</h1>
+            </div>
+            <div class="panel-body">
+                <strong>Sender:</strong> {{ obj.sender }} <br>
+                <strong>Receipient:</strong> {{ obj.recipient }} <br>
+                {{ obj.content %}
+            </div>
+        </div>
+        {% endfor %}
+        {% else %}
+        <div class="panel panel-danger">
+            <div class="panel-heading">
+                <h1 class="panel-title">Uh oh!</h1>
+            </div>
+            <div class="panel-body">
+                No messages found.
+            </div>
+        </div>
+        {% endif %}
+
+    </div>
+</div>
+{% endblock %}

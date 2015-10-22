@@ -1,3 +1,4 @@
+from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.forms import ModelForm
@@ -28,3 +29,12 @@ class UserProfileForm(ModelForm):
         u.status = self.cleaned_data.get('status')
         u.save()
         return u
+
+
+class ComposeForm(ModelForm):
+    class Meta:
+        model = models.Messages
+        fields = '__all__'
+        widgets = {
+            'sender': forms.Select(attrs={'readonly': True, 'disabled': True})
+        }
