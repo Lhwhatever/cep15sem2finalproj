@@ -15,12 +15,12 @@ PRIVACY_SETTINGS = (
 
 class Location(models.Model):
     app_label = 'onevone'
-    name = models.CharField(max_length=31)
+    loc_name = models.CharField(max_length=31, verbose_name="Location_Name")
     full_text = models.TextField()
     is_online = models.BooleanField()
     
     def __str__(self):
-        return "{0!s}{1}".format(self.name, " (online)" if self.is_online else "")
+        return "{0!s}{1}".format(self.loc_name, " (online)" if self.is_online else "")
     
 
 class GameCategory(models.Model):

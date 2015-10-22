@@ -53,7 +53,7 @@ class MatchCreateView(common.views.TemplateView):
             match.location = location
             match.save()
 
-            return redirect_with_msg(request, 'Match created.', reverse_lazy('match.detail', match.pk))
+            return redirect_with_msg(request, 'Match created.', reverse_lazy('match.detail', pk=match.pk))
 
 
 class TourneyListView(common.views.ListView):
