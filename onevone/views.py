@@ -16,6 +16,7 @@ class MatchListView(common.views.ListView):
             
     def update_context(self, **kwargs):
         self.context['filter'] = self.kwargs.get('filter', None)
+        self.context['type'] = 'match'
 
 
 class MatchDetailView(common.views.DetailView):
@@ -29,11 +30,7 @@ class MatchCreateView(common.views.CreateView):
     login_required = True
     set_default_user = True
     template_name = "match_form.html"
-
-    def dispatch(self, request, *args, **kwargs):
-        a = super(MatchCreateView, self).dispatch(request, *args, **kwargs)
-        print(kwargs.form)
-        return a
+    success_url = 'match.index'
 
 
 class TourneyListView(common.views.ListView):
@@ -47,6 +44,7 @@ class TourneyListView(common.views.ListView):
 
     def update_context(self):
         self.context['filter'] = self.kwargs.get('filter', None)
+        self.context['type'] = 'tourney'
 
 
 class TourneyDetailView(common.views.DetailView):

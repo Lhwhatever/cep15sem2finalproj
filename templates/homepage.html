@@ -88,26 +88,17 @@
     <div class = "title1">
       Happening now:
       </div>
-    <div class="apple">
-      <div class="col-sm-6 col-md-4">
-        <div class="thumbnail">
-          <img src="http://zoarchurch.co.uk/content/pages/uploaded_images/91.png">
-          <div class="caption">
+    <div class="jumbotron">
             <h3>Faze Clan vs Optic Gaming</h3>
             <p>Best of 5 Grand Finals at MLG 2015</p>
-            <p><a href="#" class="btn btn-primary" role="button">Watch Stream</a></p>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class = "mediafeed">
-      Tweets, Events ETC
-      Twitter / Facebook API
+            <p><a href = "{% url 'login' %}" >Match Details</a></p>
+            <p><a href="http://twitch.tv/" class="btn btn-primary" role="button">Watch Stream</a></p>
     </div>
     <div class ="newmatches">
-
+        <h1>Upcoming matches:</h1>
     </div>
     <div class = "oldmatches">
+      <h1>Recent Matches:</h1>
 
       </div>
     {% endblock %}

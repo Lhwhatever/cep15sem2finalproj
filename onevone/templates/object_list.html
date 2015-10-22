@@ -24,7 +24,7 @@
             {% for obj in object_list %}
             {% if not filter or obj.category.label == filter %}
             <tr>
-                <td><a href="{% url 'match.detail' match.pk %}">{{ obj.name }}</a></td>
+                <td><a href="{% url type|add:'.detail' obj.pk %}">{{ obj.name }}</a></td>
                 <td>{{ obj.category }}: {{ obj.game }}</td>
                 <td>{{ obj.owner }}</td>
                 <td>{{ obj.participants.all|length }} / {{ obj.vacancies }}</td>
