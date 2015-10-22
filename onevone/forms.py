@@ -6,11 +6,11 @@ class LocationForm(forms.ModelForm):
 
     class Meta:
         model = models.Location
-        fields = '__all__'
+        fields = ('loc_name', 'full_text', 'is_online')
 
     def __init__(self, *args, **kwargs):
         super(LocationForm, self).__init__(*args, **kwargs)
-        self.fields['name'].label = 'Location Name'
+        self.fields['loc_name'].label = 'Location Name'
         self.fields['full_text'].label = 'Location Description'
         self.fields['is_online'].label = 'Is location online?'
 
