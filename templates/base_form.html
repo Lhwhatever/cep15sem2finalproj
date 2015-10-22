@@ -11,7 +11,9 @@
         {% endblock %}
         <form action="" method="POST" class="form-horizontal">
             {% csrf_token %}
+            {% block forms %}
             {% include 'form_snippet.html' %}
+            {% endblock %}
             <div class="btn-group col-sm-offset-2 col-sm-9">
                 <input class="btn btn-success" type="submit">
                 <a href="javascript:history.back()" class="btn btn-danger">Cancel</a>
@@ -21,7 +23,12 @@
 </div>
 {% endblock %}
 
+{% block head %}
+<link rel="stylesheet" href="{% static 'plugins/datetimepicker/jquery.datetimepicker.css' %}">
+{% endblock %}
+
 {% block other %}
+<script src="{% static 'plugins/datetimepicker/jquery.datetimepicker.js '%}"></script>
 <script src="{% static 'form.js' %}"></script>
 <script>
     setup();
