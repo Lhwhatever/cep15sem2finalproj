@@ -165,7 +165,7 @@ class CreateView(generic.CreateView):
 
     def get_context_data(self, **kwargs):
         self.update_context()
-        self.context.update()
+        self.context.update(**kwargs)
         return super(CreateView, self).get_context_data(user=models.UserProfile.get(self.request.user),
                                                         message=self.request.session.pop('message', None),
                                                         categories=get_categories(),

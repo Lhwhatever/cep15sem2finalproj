@@ -1,8 +1,11 @@
+from django.core.urlresolvers import reverse_lazy
 from django.shortcuts import render
 from . import models, forms
 
 # Create your views here.
+import acc
 from cep15sem2finalproj import common
+from cep15sem2finalproj.common.views import redirect_with_msg
 
 
 class MatchListView(common.views.ListView):
@@ -24,13 +27,32 @@ class MatchDetailView(common.views.DetailView):
     model = models.Match
 
 
-class MatchCreateView(common.views.CreateView):
-    form_class = forms.MatchForm
+class MatchCreateView(common.views.TemplateView):
     model = models.Match
     login_required = True
-    set_default_user = True
     template_name = "match_form.html"
-    success_url = 'match.index'
+
+    location_form = forms.LocationForm
+    match_form = forms.MatchForm
+    blacklist = True
+
+    def get(self, request, *args, **kwargs):
+        kwargs.setdefault('location_form', self.location_form())
+        kwargs.setdefault('match_form', self.match_form())
+        return super(MatchCreateView, self).get(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        location_form = self.location_form(data=request.POST)
+        match_form = self.match_form(data=request.POST)
+
+        if location_form.is_valid() and match_form.is_valid():
+            location = location_form.save()
+            match = match_form.save(commit=False)
+            match.owner = acc.models.UserProfile.get(self.request.user)
+            match.location = location
+            match.save()
+
+            return redirect_with_msg(request, 'Match created.', reverse_lazy('match.detail', match.pk))
 
 
 class TourneyListView(common.views.ListView):
