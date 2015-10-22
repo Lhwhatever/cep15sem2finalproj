@@ -184,3 +184,33 @@ class CreateView(generic.CreateView):
         if self.set_default_user:
             initial['owner'] = acc.models.UserProfile.get(self.request.user)
         return initial
+
+
+class DeleteView(generic.DeleteView):
+    context = {}
+
+    login_required = True
+    users = ()
+    blacklist = True
+    redirect = None
+
+    set_default_user = False
+
+    def update_context(self):
+        pass
+
+    def get_context_data(self, **kwargs):
+        self.update_context()
+        self.context.update(**kwargs)
+        return super(DeleteView, self).get_context_data(user=models.UserProfile.get(self.request.user),
+                                                        message=self.request.session.pop('message', None),
+                                                        categories=get_categories(),
+                                                        **self.context)
+
+    def dispatch(self, request, *args, **kwargs):
+        return login_required_redirect(request, super(DeleteView, self).dispatch,
+                                       mesage=None,
+                                       redirect_to=self.redirect,
+                                       enforce=self.login_required,
+                                       users=self.users,
+                                       blacklist=self.blacklist)

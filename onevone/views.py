@@ -53,7 +53,46 @@ class MatchCreateView(common.views.TemplateView):
             match.location = location
             match.save()
 
-            return redirect_with_msg(request, 'Match created.', reverse_lazy('match.detail', pk=match.pk))
+            return redirect_with_msg(request, 'Match created.', reverse_lazy('match.detail',
+                                                                             kwargs={'pk': self.kwargs['pk']}))
+
+
+class MatchUpdateView(common.views.TemplateView):
+    model = models.Match
+    login_required = True
+    template_name = "match_form.html"
+
+    location_form = forms.LocationForm
+    match_form = forms.MatchForm
+    blacklist = True
+
+    def get(self, request, *args, **kwargs):
+        l = self.location_form(instance=models.Location.objects.get(pk=self.kwargs['pk']))
+        m = self.match_form(instance=models.Match.objects.get(pk=self.kwargs['pk']))
+        kwargs.setdefault('location_form', l)
+        kwargs.setdefault('match_form', m)
+        return super(MatchUpdateView, self).get(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        location_form = self.location_form(data=request.POST)
+        match_form = self.match_form(data=request.POST)
+
+        if location_form.is_valid() and match_form.is_valid():
+            location = location_form.save()
+            match = match_form.save(commit=False)
+            match.owner = acc.models.UserProfile.get(self.request.user)
+            match.location = location
+            match.save()
+
+            return redirect_with_msg(request, 'Match updated.', reverse_lazy('match.detail',
+                                                                             kwargs={'pk': self.kwargs['pk']}))
+
+
+class MatchDeleteView(common.views.DeleteView):
+    model = models.Match
+    login_required = True
+    template_name = "delete_form.html"
+    success_url = "/match/"
 
 
 class TourneyListView(common.views.ListView):
